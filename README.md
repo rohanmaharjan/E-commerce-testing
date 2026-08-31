@@ -39,7 +39,7 @@ This separation (frontend / API / database) is exactly what this project's testi
 
 ## ARCHITECTURE
 <p align="center">
-  <img src="images\architecture.html" alt="Architecture" width="200" />
+  <img src="images\architecture.png" alt="Architecture" width="200" />
 </p>
 
 **Workflow**
@@ -53,7 +53,7 @@ The actual day-to-day process, in order:
 - Report bugs found — clear steps, evidence, severity
 
 <p align="center">
-  <img src="images\test.html" alt="Logo" width="200" />
+  <img src="images\test.png" alt="Logo" width="200" />
 </p>
 
 ---
