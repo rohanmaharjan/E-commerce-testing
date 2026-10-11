@@ -1,0 +1,72 @@
+ecommerce-testing/
+├── README.md
+├── .gitignore
+├── .env.example
+├── requirements.txt
+├── pytest.ini
+├── conftest.py
+├── docker-compose.yml
+│
+├── docs/
+│   ├── architecture-diagram.png
+│   ├── workflow-diagram.png
+│   └── test-strategy.md
+│
+├── manual-tests/
+│   ├── test-cases.xlsx
+│   ├── test-execution-log.xlsx
+│   └── test-data.md
+│
+├── automation/
+│   ├── config/
+│   │   └── settings.py
+│   │
+│   ├── ui/
+│   │   ├── conftest.py
+│   │   ├── pages/
+│   │   │   ├── base_page.py
+│   │   │   ├── login_page.py
+│   │   │   ├── home_page.py
+│   │   │   ├── product_page.py
+│   │   │   ├── cart_page.py
+│   │   │   └── checkout_page.py
+│   │   └── tests/
+│   │       ├── test_login.py
+│   │       ├── test_search.py
+│   │       ├── test_cart.py
+│   │       └── test_checkout.py
+│   │
+│   ├── api/
+│   │   ├── conftest.py
+│   │   ├── clients/
+│   │   │   └── api_client.py
+│   │   └── tests/
+│   │       ├── test_auth_api.py
+│   │       ├── test_products_api.py
+│   │       ├── test_cart_api.py
+│   │       └── test_orders_api.py
+│   │
+│   ├── db/
+│   │   ├── conftest.py
+│   │   ├── db_connection.py
+│   │   ├── queries.py
+│   │   └── tests/
+│   │       ├── test_user_integrity.py
+│   │       └── test_order_integrity.py
+│   │
+│   └── utils/
+│       ├── data_factory.py
+│       └── helpers.py
+│
+├── bug-reports/
+│   ├── BUG-TEMPLATE.md
+│   ├── BUG-001.md
+│   └── bug-summary.md
+│
+├── reports/                 (auto-generated, git-ignored)
+│
+└── .github/
+    ├── workflows/
+    │   └── ci.yml
+    └── ISSUE_TEMPLATE/
+        └── bug_report.md
