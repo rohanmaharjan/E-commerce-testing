@@ -1,0 +1,68 @@
+﻿TC ID,Module,Title,Priority,Type,Preconditions,Test Data,Steps,Expected Result,Automation,Date,Tester,Actual Result,Status,Bug ID,Browser
+TC-REG-001,Registration,Verify registration with all valid data,High,Positive,Not logged in; email never used before,"Unique email (e.g. qa.user+001@example.com), valid name/DOB/address, strong password","1. Open /auth/register
+2. Fill all required fields with valid data
+3. Click Register",Account is created and user is redirected to the login page; no error shown. [VERIFY exact redirect],UI,,,,Not Run,,
+TC-REG-002,Registration,Verify registration fails with an already registered email,High,Negative,Demo user exists,"Email: customer@practicesoftwaretesting.com, other fields valid","1. Open register page
+2. Fill form using the existing email
+3. Click Register",Registration rejected with a clear message that the email already exists; no duplicate account.,API,,,,Not Run,,
+TC-REG-003,Registration,Verify required-field validation when form is submitted empty,High,Negative,On register page,All fields blank,"1. Open register page
+2. Click Register without entering data",Each required field shows a validation message; form is not submitted.,UI,,,,Not Run,,
+TC-REG-004,Registration,Verify email format validation,Medium,Negative,On register page,"Email: abc, abc@, @example.com, abc@@example.com","1. Fill form with each invalid email
+2. Click Register",An email-format message is shown for each; account not created.,Manual,,,,Not Run,,
+TC-REG-005,Registration,Verify weak password is rejected,High,Negative,On register page,"Passwords: 123, abcdefgh, 12345678 (EP: short / letters only / digits only)","1. Fill valid data with each weak password
+2. Click Register","Password policy message shown; account not created. [VERIFY policy: min length, character types]",API,,,,Not Run,,
+TC-REG-006,Registration,Verify password length boundaries,Medium,Edge,On register page,"Password length: min-1, min, min+1 (find min from the app's message)","1. Register with each length
+2. Observe result",Below the minimum is rejected; minimum and above is accepted.,Manual,,,,Not Run,,
+TC-REG-007,Registration,Verify password field masks characters,Medium,Positive,On register page,Any password,1. Type in the password field,Characters are masked.,Manual,,,,Not Run,,
+TC-REG-008,Registration,Verify registration handles special characters and very long text in text fields,Low,Edge,On register page,"First name: <script>alert(1)</script>, 300-character string, ' OR 1=1 --","1. Enter the data in name fields
+2. Submit","Input is rejected or safely stored/escaped; no script runs, no error page, no crash.",Manual,,,,Not Run,,
+TC-LOGIN-001,Login / Logout,Verify login with valid credentials,High,Positive,Registered user; on login page,customer@practicesoftwaretesting.com / welcome01 (confirm on login page),"1. Open /auth/login
+2. Enter email and password
+3. Click Login",User is logged in and lands on the account page; user name appears in the header.,UI,,,,Not Run,,
+TC-LOGIN-002,Login / Logout,Verify login fails with wrong password,High,Negative,Registered user,"Valid email, password: wrong123","1. Open login page
+2. Enter valid email and wrong password
+3. Click Login",Error message shown (e.g. invalid email or password); user stays on login page.,UI,,,,Not Run,,
+TC-LOGIN-003,Login / Logout,Verify login fails with unregistered email,High,Negative,On login page,nobody@example.com / anything123,"1. Enter data
+2. Click Login",Error shown; message does not reveal whether the email exists. [VERIFY actual message],API,,,,Not Run,,
+TC-LOGIN-004,Login / Logout,Verify validation when both fields are blank,Medium,Negative,On login page,Blank / blank,1. Click Login with empty form,Required-field messages appear for both fields.,UI,,,,Not Run,,
+TC-LOGIN-005,Login / Logout,Verify invalid email format on login,Medium,Negative,On login page,"Email: abc, password: anything","1. Enter data
+2. Click Login",Email-format validation message is shown.,Manual,,,,Not Run,,
+TC-LOGIN-006,Login / Logout,Verify logout ends the session,High,Positive,User logged in,customer@practicesoftwaretesting.com / welcome01 (confirm on login page),"1. Log in
+2. Click user menu > Sign out
+3. Press browser Back button",User is logged out; account page is not shown without logging in again.,UI,,,,Not Run,,
+TC-LOGIN-007,Login / Logout,Verify account page is inaccessible without login,High,Negative,Not logged in,URL: /account,1. Open /account directly in a new session,User is redirected to the login page; no account data shown.,UI,,,,Not Run,,
+TC-LOGIN-008,Login / Logout,Verify login handles SQL-like input safely,Medium,Edge,On login page,Email: ' OR 1=1 --  Password: x,"1. Enter data
+2. Click Login","Rejected normally; no login, no server error page.",Manual,,,,Not Run,,
+TC-CART-001,Cart,Verify adding a product to the cart,High,Positive,On a product page,"Any product, qty 1",1. Click Add to cart,Confirmation shown; cart icon count becomes 1; item appears in cart.,UI,,,,Not Run,,
+TC-CART-002,Cart,Verify adding the same product twice,High,Edge,Product already in cart,Same product,1. Add the same product again,Quantity increases to 2 (single line item); no duplicate line. [VERIFY],UI,,,,Not Run,,
+TC-CART-003,Cart,Verify adding different products,Medium,Positive,Cart empty,Two products,"1. Add product A
+2. Add product B",Both are listed; cart count is 2 (or total quantity).,UI,,,,Not Run,,
+TC-CART-004,Cart,Verify updating quantity in the cart,High,Positive,Item in cart,Qty 1 to 3,"1. Open cart
+2. Change quantity to 3",Line total and cart total update correctly.,UI,,,,Not Run,,
+TC-CART-005,Cart,Verify removing an item from the cart,High,Positive,Item in cart,-,"1. Open cart
+2. Click remove on the item",Item is removed; totals update; empty cart message when last item removed.,UI,,,,Not Run,,
+TC-CART-006,Cart,Verify cart total calculation,High,Positive,Two or more items,Known prices and quantities,"1. Add items with known prices
+2. Calculate expected total by hand
+3. Compare with cart total",Total equals the sum of price x quantity of every line.,API,,,,Not Run,,
+TC-CART-007,Cart,Verify cart quantity set to zero or negative,Medium,Negative,Item in cart,"0, -1",1. Edit quantity to each value,"Rejected, or item removed for 0; never a negative total.",Manual,,,,Not Run,,
+TC-CART-008,Cart,Verify cart persists after page refresh,Medium,Positive,Item in cart,-,"1. Refresh the page
+2. Open the cart",Items are still present.,UI,,,,Not Run,,
+TC-CART-009,Cart,Verify cart behaviour when a guest logs in,Medium,Edge,Guest cart has items,customer@practicesoftwaretesting.com / welcome01 (confirm on login page),"1. Add item as guest
+2. Log in
+3. Open cart","Defined behaviour: cart kept or merged, no lost or duplicated items. [VERIFY]",Manual,,,,Not Run,,
+TC-CHECK-001,Checkout,Verify complete checkout end to end,High,Positive,Logged in; item in cart,customer@practicesoftwaretesting.com / welcome01 (confirm on login page); valid address; payment: Cash on Delivery,"1. Open cart > Proceed to checkout
+2. Confirm sign-in step
+3. Fill billing address
+4. Choose payment
+5. Confirm",Order is placed; confirmation message or invoice number shown; cart is emptied. [VERIFY],UI,,,,Not Run,,
+TC-CHECK-002,Checkout,Verify checkout requires login,High,Negative,Guest with item in cart,-,"1. Open cart as guest
+2. Click Proceed to checkout",User is asked to log in or register before continuing.,UI,,,,Not Run,,
+TC-CHECK-003,Checkout,Verify billing address required fields,High,Negative,On billing step,"Blank street, city, postcode, country","1. Leave fields empty
+2. Click Proceed",Validation messages shown; user cannot continue.,Manual,,,,Not Run,,
+TC-CHECK-004,Checkout,Verify each payment method can be selected,High,Positive,On payment step,Each available method,1. Select each method in turn,Method-specific fields appear and the order can be placed. [VERIFY list],Manual,,,,Not Run,,
+TC-CHECK-005,Checkout,Verify credit card validation,High,Negative,Payment: Credit Card,"Invalid number, expired date, blank CVV","1. Enter invalid card data
+2. Confirm",Validation messages shown; order not placed.,Manual,,,,Not Run,,
+TC-CHECK-006,Checkout,Verify order total at checkout matches the cart,High,Positive,Items in cart,Known items,"1. Note cart total
+2. Go through checkout",Total shown at checkout and on confirmation equals the cart total.,API,,,,Not Run,,
+TC-CHECK-007,Checkout,Verify double click on the confirm button,Medium,Edge,On final step,-,1. Double-click Confirm,Only one order is created.,Manual,,,,Not Run,,
+TC-CHECK-008,Checkout,Verify refreshing during checkout does not lose or duplicate the order,Medium,Edge,Mid-checkout,-,1. Refresh on a middle step,User keeps progress or restarts cleanly; no duplicate order.,Manual,,,,Not Run,,
