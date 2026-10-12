@@ -7,6 +7,10 @@ class ProductPage(BasePage):
         self.name = page.get_by_test_id("product-name")
         self.price = page.get_by_test_id("unit-price")
         self.add_to_cart_button = page.get_by_test_id("add-to-cart")
+        self.quantity = page.get_by_test_id("quantity")                    # VERIFY
 
+    def set_quantity(self, value):
+        self.quantity.fill(str(value))
+    
     def add_to_cart(self):
         self.add_to_cart_button.click()

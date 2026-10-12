@@ -10,6 +10,19 @@ class HomePage(BasePage):
         self.no_results = page.get_by_test_id("no-results")
         self.nav_menu = page.get_by_test_id("nav-menu")
         self.cart_count = page.get_by_test_id("cart-quantity")
+        self.sign_out = page.get_by_test_id("nav-sign-out")      # VERIFY
+        self.sort = page.get_by_test_id("sort")                  # VERIFY
+        self.product_prices = page.get_by_test_id("product-price")  # VERIFY
+
+    def sort_by(self, label):
+        self.sort.select_option(label=label)
+
+    def filter_by_category(self, name):
+        self.page.get_by_label(name).check()                     # VERIFY: how are checkboxes labelled?
+    
+    def log_out(self):
+        self.nav_menu.click()
+        self.sign_out.click()
 
     def open(self):
         self.goto("/")

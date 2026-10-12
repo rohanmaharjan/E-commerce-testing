@@ -9,3 +9,8 @@ def create_user_via_api():
         f"Register failed: {response.status_code} {response.text[:300]}"
     )
     return {"email": payload["email"], "password": payload["password"]}
+
+def parse_price(text):
+    """'$14.15' or '$ 1,014.15' -> 14.15"""
+    cleaned = "".join(ch for ch in text if ch.isdigit() or ch == ".")
+    return float(cleaned)

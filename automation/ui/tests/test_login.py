@@ -27,3 +27,17 @@ def test_login_with_empty_form_stays_on_login_page(page):  # TC-LOGIN-004
     login = LoginPage(page).open()
     login.submit.click()
     expect(page).to_have_url(re.compile(r"/auth/login"))
+
+def test_logout_ends_the_session(logged_in_page):  # TC-LOGIN-006
+    page = logged_in_page
+    HomePage(page).log_out()
+    expect(page).to_have_url(re.compile(r"/auth/login"))
+
+    # a logged-out user must not reach the account page
+    page.goto("/account")
+    expect(page).to_have_url(re.compile(r"/auth/login"))
+
+
+def test_account_page_requires_login(page):  # TC-LOGIN-007
+    page.goto("/account")
+    expect(page).to_have_url(re.compile(r"/auth/login"))
