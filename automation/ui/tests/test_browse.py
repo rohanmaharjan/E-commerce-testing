@@ -21,14 +21,26 @@ def test_sort_by_price_low_to_high(page):  # TC-BROWSE-002
 
 def test_filter_by_category_matches_api_results(page):  # TC-BROWSE-004
     home = HomePage(page).open()
-    with page.expect_response(lambda r: "by_category" in r.url) as response_info:
-        home.filter_by_category("Hammer")          # VERIFY: use a category you saw
-    api_names = [p["name"] for p in response_info.value.json()["data"]]
+
+    def is_category_filter_request(response):
+        request = response.request
+        body = request.post_data or ""
+        return (
+            request.method == "QUERY"
+            and response.url.split("?")[0].endswith("/products")
+            and "categor" in body
+        )
+
+    with page.expect_response(is_category_filter_request) as response_info:
+        home.filter_by_category("Hammer")
+
+    response = response_info.value
+    print("FILTER REQUEST BODY:", response.request.post_data)
+    api_names = [p["name"] for p in response.json()["data"]]
 
     assert api_names, "category returned no products"
     expect(home.product_names).to_have_count(len(api_names))
     assert sorted(n.strip() for n in home.product_names.all_inner_texts()) == sorted(api_names)
-
 
 def test_product_page_matches_listing(page):  # TC-DETAIL-001
     home = HomePage(page).open()

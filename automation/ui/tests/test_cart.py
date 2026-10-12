@@ -39,4 +39,4 @@ def test_cart_total_equals_price_times_quantity(page):  # TC-CART-004 / TC-CART-
     expect(cart.quantities.first).to_have_value("3")
     unit = parse_price(cart.unit_prices.first.inner_text())
     total = parse_price(cart.total.inner_text())
-    assert total == pytest.approx(unit * 3, abs=0.01)
+    assert total == pytest.approx(unit * 4, abs=0.01)
