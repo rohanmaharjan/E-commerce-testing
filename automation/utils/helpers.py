@@ -14,3 +14,12 @@ def parse_price(text):
     """'$14.15' or '$ 1,014.15' -> 14.15"""
     cleaned = "".join(ch for ch in text if ch.isdigit() or ch == ".")
     return float(cleaned)
+
+def get_invoices_via_api(email, password):
+    api = ApiClient()
+    response = api.login(email, password)
+    assert response.status_code == 200, response.text
+    api.set_token(response.json()["access_token"])
+    result = api.get("/invoices")
+    assert result.status_code == 200, result.text
+    return result.json()["data"]

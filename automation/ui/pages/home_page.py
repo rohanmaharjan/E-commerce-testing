@@ -13,6 +13,11 @@ class HomePage(BasePage):
         self.sign_out = page.get_by_test_id("nav-sign-out")      # VERIFY
         self.sort = page.get_by_test_id("sort")                  # VERIFY
         self.product_prices = page.get_by_test_id("product-price")  # VERIFY
+        self.my_invoices = page.get_by_test_id("nav-my-invoices")
+
+    def open_my_invoices(self):
+        self.nav_menu.click()
+        self.my_invoices.click()
 
     def sort_by(self, label):
         self.sort.select_option(label=label)
