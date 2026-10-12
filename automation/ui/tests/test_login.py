@@ -41,3 +41,20 @@ def test_logout_ends_the_session(logged_in_page):  # TC-LOGIN-006
 def test_account_page_requires_login(page):  # TC-LOGIN-007
     page.goto("/account")
     expect(page).to_have_url(re.compile(r"/auth/login"))
+
+def test_forgot_password_link_opens_reset_form(page):
+    login = LoginPage(page).open()
+    login.forgot_password_link.click()
+    expect(page.get_by_test_id("forgot-password-submit")).to_be_visible()
+
+
+def test_register_link_opens_registration_form(page):
+    login = LoginPage(page).open()
+    login.register_link.click()
+    expect(page.get_by_test_id("register-submit")).to_be_visible()
+
+
+def test_login_password_field_is_masked(page):  # TC-LOGIN-006
+    login = LoginPage(page).open()
+    login.password.fill("SomeSecret123!")
+    expect(login.password).to_have_attribute("type", "password")
